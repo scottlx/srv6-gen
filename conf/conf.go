@@ -10,10 +10,10 @@ type Config struct {
 	Device        string   `json:"device"`
 	L2Src         string   `json:"l2Src"`
 	L2Dst         string   `json:"l2Dst"`
-	OverlayV6Dst  string   `json:"overlayV6Dst"`
-	OverlayV6Src  string   `json:"overlayV6Src"`
-	UnderlayV4Dst string   `json:"underlayV4Dst"`
-	UnderlayV4Src string   `json:"underlayV4Src"`
+	UnderlayV6Dst string   `json:"underlayV6Dst"`
+	UnderlayV6Src string   `json:"underlayV6Src"`
+	OverlayV4Dst  string   `json:"overlayV4Dst"`
+	OverlayV4Src  string   `json:"overlayV4Src"`
 	SrhAddresses  []string `json:"srhAddresses"`
 	PayLoad       string   `json:"payload"`
 	EncapApn6     bool     `json:"encapApn6"`

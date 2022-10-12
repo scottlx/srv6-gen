@@ -105,8 +105,8 @@ func AppendIp6Header(cfg *conf.Config, pktLayer []gopacket.SerializableLayer) []
 		Length:       uint16(Ip4Len + IcmpLen + len(cfg.PayLoad) + srv6HeaderLength + apn6HeaderLength),
 		NextHeader:   Ip6NextSrv6,
 		HopLimit:     62,
-		SrcIP:        net.ParseIP(cfg.OverlayV6Src),
-		DstIP:        net.ParseIP(cfg.OverlayV6Dst),
+		SrcIP:        net.ParseIP(cfg.UnderlayV6Src),
+		DstIP:        net.ParseIP(cfg.UnderlayV6Dst),
 	}
 	return append(pktLayer, ipv6Layer)
 }
@@ -122,8 +122,8 @@ func AppendIp4Header(cfg *conf.Config, pktLayer []gopacket.SerializableLayer) []
 		FragOffset: 0,
 		TTL:        254,
 		Protocol:   ProtocalIcmp,
-		SrcIP:      net.ParseIP(cfg.UnderlayV4Src),
-		DstIP:      net.ParseIP(cfg.UnderlayV4Dst),
+		SrcIP:      net.ParseIP(cfg.OverlayV4Src),
+		DstIP:      net.ParseIP(cfg.OverlayV4Dst),
 	}
 	return append(pktLayer, ipLayer)
 }
