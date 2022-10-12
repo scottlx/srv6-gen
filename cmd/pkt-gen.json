@@ -1,0 +1,16 @@
+{
+  "device": "vpp1host",
+  "l2Src": "02:fe:ab:f4:1a:aa",
+  "l2Dst": "3e:d3:97:98:82:4b",
+  "overlayV6Dst": "fc02::1a",
+  "overlayV6Src": "::",
+  "underlayV4Dst": "192.168.1.1",
+  "underlayV4Src": "192.168.2.2",
+  "srhAddresses" : [
+    "fc03::1a",
+    "fc02::1a",
+    "fc01::1a"
+  ],
+  "encapApn6" : false,
+  "payload": "abcdefg"
+}
