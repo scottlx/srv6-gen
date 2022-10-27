@@ -26,10 +26,10 @@ var (
 const (
 	ethNextIpv6  = 0x86dd
 	IcmpRequest  = 0x0800
-	SrNextIpv4   = 4
-	SrNextApn6   = 150
 	ProtocalIcmp = 1
 	Ip6NextSrv6  = 43
+	Ip6NextDoh   = 60
+	Ip6NextIpv4  = 4
 	IcmpLen      = 8
 	Ip4Len       = 20
 )
@@ -138,7 +138,7 @@ func AppendIcmpHeader(cfg *conf.Config, pktLayer []gopacket.SerializableLayer) [
 }
 
 func AppendSrHeader(cfg *conf.Config, pktLayer []gopacket.SerializableLayer) []gopacket.SerializableLayer {
-	var apn6Layer *apn6.Apn6Layer
+	var dohLayer *apn6.Apn6Layer
 	var srv6Layer *srv6.Srv6Layer
 
 	var srhAddr []net.IP
@@ -147,18 +147,18 @@ func AppendSrHeader(cfg *conf.Config, pktLayer []gopacket.SerializableLayer) []g
 	}
 
 	if cfg.EncapApn6 {
-		apn6Layer = &apn6.Apn6Layer{
-			NextHeader:    SrNextIpv4,
+		dohLayer = &apn6.Apn6Layer{
+			NextHeader:    Ip6NextIpv4,
 			Length:        1,
-			OptionType:    0,
-			OptionDataLen: 0,
+			OptionType:    0x13,
+			OptionDataLen: 12,
 			ApnIdType:     0,
 			Flags:         0,
 			ApnParaType:   0,
 			ApnId:         0x1234567812345678,
 		}
 		srv6Layer = &srv6.Srv6Layer{
-			NextHeader: SrNextApn6,
+			NextHeader: Ip6NextDoh,
 			Length:     uint8(2 * len(cfg.SrhAddresses)),
 			Type:       4,
 			Left:       1,
@@ -168,11 +168,11 @@ func AppendSrHeader(cfg *conf.Config, pktLayer []gopacket.SerializableLayer) []g
 			Address:    srhAddr,
 		}
 		pktLayer = append(pktLayer, srv6Layer)
-		pktLayer = append(pktLayer, apn6Layer)
+		pktLayer = append(pktLayer, dohLayer)
 
 	} else {
 		srv6Layer = &srv6.Srv6Layer{
-			NextHeader: SrNextIpv4,
+			NextHeader: Ip6NextIpv4,
 			Length:     uint8(2 * len(cfg.SrhAddresses)),
 			Type:       4,
 			Left:       1,
